@@ -10,5 +10,9 @@
   {
     "key": "KEYMASTER",
     "active": true
+  },
+  {
+    "key": "123",
+    "active": true
   }
 ]
