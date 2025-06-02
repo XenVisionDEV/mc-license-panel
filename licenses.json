@@ -6,5 +6,9 @@
   {
     "key": "MC-ABCD-9876",
     "active": false
+  },
+  {
+    "key": "KEYMASTER",
+    "active": true
   }
 ]
