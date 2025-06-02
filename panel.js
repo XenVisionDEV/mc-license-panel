@@ -26,6 +26,17 @@ function logoutToken() {
 }
 window.logoutToken = logoutToken;
 
+// === Генератор ключей ===
+window.generateKey = function() {
+  const base = "XenVisionKeyLicense_";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let rand = "";
+  for (let i = 0; i < 10; ++i) {
+    rand += chars[Math.floor(Math.random()*chars.length)];
+  }
+  document.getElementById('new-key').value = base + rand;
+};
+
 function showToast(msg, type = "success") {
   const toastContainer = document.getElementById("toast-container");
   const toast = document.createElement("div");
@@ -100,17 +111,6 @@ async function saveLicenses(licenses, sha) {
   }
   showToast("Лицензии успешно обновлены.", "success");
 }
-
-// === Генератор ключей ===
-window.generateKey = function() {
-  const base = "XenVisionKeyLicense_";
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let rand = "";
-  for (let i = 0; i < 10; ++i) {
-    rand += chars[Math.floor(Math.random()*chars.length)];
-  }
-  document.getElementById('new-key').value = base + rand;
-};
 
 window.addLicense = async function() {
   const input = document.getElementById('new-key');
