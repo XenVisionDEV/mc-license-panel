@@ -1,0 +1,12 @@
+[
+  {
+    "key": "KEY123-EXAMPLE",
+    "active": true,
+    "owner": "User1"
+  },
+  {
+    "key": "KEY456-EXAMPLE",
+    "active": false,
+    "owner": "User2"
+  }
+]
