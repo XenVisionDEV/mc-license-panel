@@ -1,12 +1,8 @@
-// Настройка: укажи свой репозиторий и имя файла лицензий
 const GITHUB_OWNER = "XenVisionDEV";
 const GITHUB_REPO = "mc-license-panel";
 const LICENSES_PATH = "licenses.json";
+const GITHUB_TOKEN = "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"; // Только для локального теста!
 
-// Вставь свой Personal Access Token (лучше хранить в .env или только для локального теста!)
-const GITHUB_TOKEN = "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";
-
-// Запросить licenses.json с GitHub
 async function fetchLicenses() {
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${LICENSES_PATH}`,
@@ -16,11 +12,9 @@ async function fetchLicenses() {
   const data = await res.json();
   const content = atob(data.content);
   const licenses = JSON.parse(content);
-  // Для коммита потребуется SHA последнего файла
   return { licenses, sha: data.sha };
 }
 
-// Записать licenses.json на GitHub (через API)
 async function saveLicenses(licenses, sha) {
   const content = btoa(JSON.stringify(licenses, null, 2));
   const message = prompt("Введите комментарий к изменению:", "Обновление лицензий") || "Update licenses";
@@ -42,9 +36,36 @@ async function saveLicenses(licenses, sha) {
   if (!res.ok) throw new Error("Не удалось записать файл лицензий");
 }
 
-// Вся логика работы панели теперь использует fetchLicenses/saveLicenses вместо localStorage!
+window.addLicense = async function() {
+  const input = document.getElementById('new-key');
+  const newKey = input.value.trim();
+  if (!newKey) return alert("Введите ключ!");
+  let { licenses, sha } = await fetchLicenses();
+  if (licenses.some(l => l.key === newKey)) {
+    alert("Такой ключ уже есть!");
+    return;
+  }
+  licenses.push({ key: newKey, active: true });
+  await saveLicenses(licenses, sha);
+  input.value = "";
+  renderTable();
+}
 
-// Например, вот как будет выглядеть загрузка и рендеринг:
+window.toggleLicense = async function(idx) {
+  let { licenses, sha } = await fetchLicenses();
+  licenses[idx].active = !licenses[idx].active;
+  await saveLicenses(licenses, sha);
+  renderTable();
+}
+
+window.deleteLicense = async function(idx) {
+  let { licenses, sha } = await fetchLicenses();
+  if (!confirm("Удалить ключ " + licenses[idx].key + "?")) return;
+  licenses.splice(idx, 1);
+  await saveLicenses(licenses, sha);
+  renderTable();
+}
+
 async function renderTable() {
   const { licenses } = await fetchLicenses();
   const tbody = document.querySelector('#licenses-table tbody');
@@ -70,7 +91,5 @@ async function renderTable() {
     tbody.appendChild(tr);
   });
 }
-
-// Аналогично перепиши функции добавления/удаления/смены статуса, чтобы они обновляли файл на GitHub через saveLicenses().
 
 document.addEventListener('DOMContentLoaded', renderTable);
