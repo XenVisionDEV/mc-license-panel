@@ -4,7 +4,7 @@ const GITHUB_REPO = "mc-license-panel";
 const LICENSES_PATH = "licenses.json";
 
 // Вставь свой Personal Access Token (лучше хранить в .env или только для локального теста!)
-const GITHUB_TOKEN = "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";
+const GITHUB_TOKEN = "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";
 
 // Запросить licenses.json с GitHub
 async function fetchLicenses() {
