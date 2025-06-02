@@ -18,6 +18,7 @@ function logoutToken() {
   TOKEN = "";
   alert("Токен сброшен! Следующая операция снова попросит ввести токен.");
 }
+window.logoutToken = logoutToken; // <-- Эта строка делает функцию доступной для кнопки
 
 async function fetchLicenses() {
   const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`);
