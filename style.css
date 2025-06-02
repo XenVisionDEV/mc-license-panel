@@ -100,3 +100,36 @@ input:focus, .form-select:focus {
     font-size: 1em;
   }
 }
+/* Ключ переносится, не ломает таблицу */
+#licenses-table td.text-break {
+  word-break: break-all;
+  max-width: 170px;
+}
+
+/* На мобильных -- таблица скроллится, кнопки компактнее, стекаются */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  #licenses-table td.text-break {
+    max-width: 65vw;
+    font-size: 0.87em;
+  }
+  #licenses-table td:last-child {
+    min-width: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  #licenses-table .btn,
+  #licenses-table .copy-btn {
+    padding: 0.25em 0.4em;
+    font-size: 1.1em;
+    min-width: 32px;
+    margin: 0;
+    flex: 1 1 48%;
+    max-width: 48%;
+  }
+}
