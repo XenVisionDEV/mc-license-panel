@@ -86,3 +86,17 @@ input:focus, .form-select:focus {
   color: #343a40 !important;
   background: #f4f4f4 !important;
 }
+
+/* Цвет текста заголовков таблицы в светлой теме на всех экранах */
+.theme-light .table-dark thead th {
+  color: #343a40 !important;
+  background: #f4f4f4 !important;
+}
+
+/* На мобильных дополнительно чуть увеличить жирность и размер шрифта, чтобы было видно */
+@media (max-width: 768px) {
+  .theme-light .table-dark thead th {
+    font-weight: 600;
+    font-size: 1em;
+  }
+}
