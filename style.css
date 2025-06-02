@@ -2,16 +2,64 @@ body {
   min-height: 100vh;
   background: #1a1d20;
   color: #fff;
+  transition: background 0.2s, color 0.2s;
 }
 .table-dark {
   --bs-table-bg: #23272b;
   --bs-table-hover-bg: #30343a;
 }
-input.bg-secondary {
+input.bg-secondary, .form-select.bg-secondary {
   background: #23272b !important;
   color: #fff !important;
   border: none;
 }
-input:focus {
+input:focus, .form-select:focus {
   box-shadow: 0 0 0 0.1rem #19875444;
+}
+.toast {
+  background: #23272b;
+  color: #fff;
+  border: none;
+}
+.toast.success { border-left: 5px solid #198754; }
+.toast.error { border-left: 5px solid #dc3545; }
+.toast.info { border-left: 5px solid #0dcaf0; }
+.sortable { cursor: pointer; user-select: none; }
+.sort-indicator { font-size: 1em; vertical-align: middle; }
+.copy-btn {
+  border: none;
+  background: transparent;
+  color: #0dcaf0;
+  padding: 0 0.3em;
+  cursor: pointer;
+}
+.copy-btn:hover { color: #4dd0e1; }
+.theme-light {
+  background: #f4f4f4 !important;
+  color: #222 !important;
+}
+.theme-light .table-dark {
+  --bs-table-bg: #fff;
+  --bs-table-hover-bg: #eef2f7;
+  color: #222;
+}
+.theme-light .bg-secondary,
+.theme-light .form-select.bg-secondary,
+.theme-light input.bg-secondary {
+  background: #f4f4f4 !important;
+  color: #222 !important;
+}
+.theme-light .toast {
+  background: #fff;
+  color: #222;
+}
+.theme-light .modal-content {
+  background: #fff;
+  color: #222;
+}
+@media (max-width: 768px) {
+  .container { padding: 0.5rem !important; }
+  h1 { font-size: 1.2rem; }
+  .table th, .table td { font-size: 0.92em; }
+  .modal-content { font-size: 0.95em; }
 }
