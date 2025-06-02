@@ -1,39 +1,52 @@
-const GITHUB_OWNER = "XenVisionDEV";
-const GITHUB_REPO = "mc-license-panel";
-const LICENSES_PATH = "licenses.json";
-const GITHUB_TOKEN = "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"; // Только для локального теста!
+const OWNER = "XenVisionDEV";
+const REPO = "mc-license-panel";
+const FILE = "licenses.json";
+
+let TOKEN = localStorage.getItem("gh_pat") || "";
+
+async function promptToken() {
+  while (!TOKEN) {
+    TOKEN = prompt("Вставьте ваш GitHub Personal Access Token (Fine-grained, права только на mc-license-panel):");
+    if (TOKEN) localStorage.setItem("gh_pat", TOKEN);
+    else return false;
+  }
+  return true;
+}
+
+function logoutToken() {
+  localStorage.removeItem("gh_pat");
+  TOKEN = "";
+  alert("Токен сброшен! Следующая операция снова попросит ввести токен.");
+}
 
 async function fetchLicenses() {
-  const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${LICENSES_PATH}`,
-    { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` } }
-  );
-  if (!res.ok) throw new Error("Не удалось получить файл лицензий");
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`);
   const data = await res.json();
-  const content = atob(data.content);
-  const licenses = JSON.parse(content);
+  if (!data.content) throw new Error("Не удалось получить файл лицензий");
+  const licenses = JSON.parse(atob(data.content.replace(/\n/g, "")));
   return { licenses, sha: data.sha };
 }
 
 async function saveLicenses(licenses, sha) {
+  const ok = await promptToken();
+  if (!ok || !TOKEN) return alert("Нет токена!");
   const content = btoa(JSON.stringify(licenses, null, 2));
-  const message = prompt("Введите комментарий к изменению:", "Обновление лицензий") || "Update licenses";
-  const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${LICENSES_PATH}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message,
-        content,
-        sha
-      })
+  const message = prompt("Комментарий к изменению:", "Обновление лицензий") || "Обновление лицензий";
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message, content, sha })
+  });
+  if (!res.ok) {
+    if(res.status === 401) {
+      logoutToken();
+      alert("Ошибка авторизации: неправильный токен или недостаточно прав. Введите токен снова.");
     }
-  );
-  if (!res.ok) throw new Error("Не удалось записать файл лицензий");
+    throw new Error("Ошибка записи файла лицензий");
+  }
 }
 
 window.addLicense = async function() {
