@@ -1,7 +1,7 @@
 [
   {
     "key": "TEST-1234-5678",
-    "active": false
+    "active": true
   },
   {
     "key": "MC-ABCD-9876",
