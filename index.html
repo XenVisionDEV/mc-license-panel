@@ -11,15 +11,25 @@
 <body>
   <div class="bg-gradient"></div>
   <div class="container py-4">
-    <header class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-      <div class="logo-glow d-flex align-items-center gap-2">
-        <span class="material-icons gradient-icon" style="font-size:2.4em;">vpn_key</span>
-        <span class="fw-bold fs-3">Лицензии</span>
+    <!-- Новый заголовок -->
+    <header class="site-header">
+      <div class="logo-block">
+        <!-- SVG-логотип пиксельного ключа -->
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="header-logo">
+          <rect x="7" y="7" width="30" height="30" rx="7" fill="#29d9d5"/>
+          <rect x="17" y="17" width="10" height="10" rx="2" fill="#fff"/>
+          <rect x="27" y="27" width="6" height="10" rx="2" fill="#ffc371"/>
+        </svg>
+        <div>
+          <span class="header-title">XenVision Licenses</span><br>
+          <span class="header-caption">Панель лицензий Minecraft-плагина</span>
+        </div>
       </div>
       <button id="theme-toggle" class="btn btn-glass ms-2" title="Сменить тему">
         <span class="material-icons align-middle" id="theme-icon">dark_mode</span>
       </button>
     </header>
+
     <div class="d-flex flex-column flex-md-row gap-2 align-items-stretch mb-4 card-glass p-3">
       <input type="text" id="new-key" class="form-control bg-glass" placeholder="Новый ключ лицензии">
       <button onclick="generateKey()" class="btn btn-neon-blue" title="Сгенерировать">
