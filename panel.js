@@ -125,7 +125,7 @@ window.addLicense = async function() {
   try {
     await saveLicenses(licenses, sha);
     input.value = "";
-    renderTable();
+    renderLicensesList();
   } catch (e) {
     showToast(e.message, "error");
   }
@@ -136,7 +136,7 @@ window.toggleLicense = async function(idx) {
   licenses[idx].active = !licenses[idx].active;
   try {
     await saveLicenses(licenses, sha);
-    renderTable();
+    renderLicensesList();
   } catch (e) {
     showToast(e.message, "error");
   }
@@ -152,7 +152,7 @@ window.confirmDeleteLicense = function(idx) {
     licenses.splice(idx, 1);
     try {
       await saveLicenses(licenses, sha);
-      renderTable();
+      renderLicensesList();
     } catch (e) {
       showToast(e.message, "error");
     }
@@ -251,7 +251,7 @@ window.sortTable = function(field) {
   else { sortField = field; sortDirection = "asc"; }
   localStorage.setItem("sortField", sortField);
   localStorage.setItem("sortDirection", sortDirection);
-  renderTable();
+  renderLicensesList();
 }
 
 function renderTableIndicators() {
@@ -263,6 +263,7 @@ function renderTableIndicators() {
   });
 }
 
+// НОВЫЙ рендер карточек лицензий (используем вместо таблицы)
 function renderLicensesList() {
   const list = document.getElementById('licenses-list');
   list.innerHTML = '';
@@ -298,9 +299,9 @@ function renderLicensesList() {
   updateAuthStatus();
 }
 
-// Поиск, фильтр — ререндер таблицы по вводу
-document.getElementById('search').addEventListener('input', renderTable);
-document.getElementById('status-filter').addEventListener('change', renderTable);
+// Поиск, фильтр — ререндер карточек по вводу
+document.getElementById('search').addEventListener('input', renderLicensesList);
+document.getElementById('status-filter').addEventListener('change', renderLicensesList);
 
 function applyTheme() {
   if (theme === "light") {
@@ -321,5 +322,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyTheme();
   updateAuthStatus();
   await fetchLicenses();
-  renderTable();
+  renderLicensesList();
 });
