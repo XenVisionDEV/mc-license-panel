@@ -263,36 +263,38 @@ function renderTableIndicators() {
   });
 }
 
-async function renderTable() {
-  if (!licensesCache.length || !shaCache) await fetchLicenses();
-  const tbody = document.querySelector('#licenses-table tbody');
-  tbody.innerHTML = '';
+function renderLicensesList() {
+  const list = document.getElementById('licenses-list');
+  list.innerHTML = '';
   const arr = filterAndSortLicenses();
   arr.forEach((license, idx) => {
-    // Находим актуальный индекс (idx2) в исходном массиве
     const idx2 = licensesCache.findIndex(l => l.key === license.key);
-    const statusBadge = license.active
-      ? `<span class="badge bg-success">Активен</span>`
-      : `<span class="badge bg-secondary">Отключен</span>`;
-    const actions = `
-      <button onclick="window.toggleLicense(${idx2})" class="btn btn-sm btn-outline-${license.active ? 'secondary' : 'success'} me-2" title="Вкл/Выкл">
-        <span class="material-icons align-middle">${license.active ? 'lock' : 'lock_open'}</span>
-      </button>
-      <button onclick="window.confirmDeleteLicense(${idx2})" class="btn btn-sm btn-outline-danger me-2" title="Удалить">
-        <span class="material-icons align-middle">delete</span>
-      </button>
-      <button onclick="window.copyKey('${license.key.replace(/'/g,"\\'")}')" class="btn btn-sm copy-btn" title="Копировать">
-        <span class="material-icons align-middle">content_copy</span>
-      </button>`;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="text-break">${license.key}</td>
-      <td>${statusBadge}</td>
-      <td>${actions}</td>
+    const status = license.active
+      ? `<span class="status-active">Активен</span>`
+      : `<span class="status-inactive">Отключён</span>`;
+    const card = document.createElement('div');
+    card.className = 'license-card';
+    card.innerHTML = `
+      <div class="license-key-row">
+        <span class="license-key">${license.key}</span>
+        <button onclick="window.copyKey('${license.key.replace(/'/g,"\\'")}')" class="copy-btn" title="Копировать">
+          <span class="material-icons align-middle">content_copy</span>
+        </button>
+      </div>
+      <div class="license-status-row">
+        ${status}
+        <div class="card-actions ms-auto">
+          <button onclick="window.toggleLicense(${idx2})" class="btn btn-glass" title="Вкл/Выкл">
+            <span class="material-icons align-middle">${license.active ? 'lock' : 'lock_open'}</span>
+          </button>
+          <button onclick="window.confirmDeleteLicense(${idx2})" class="btn btn-glass text-danger" title="Удалить">
+            <span class="material-icons align-middle">delete</span>
+          </button>
+        </div>
+      </div>
     `;
-    tbody.appendChild(tr);
+    list.appendChild(card);
   });
-  renderTableIndicators();
   updateAuthStatus();
 }
 
