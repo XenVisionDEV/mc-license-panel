@@ -10,47 +10,99 @@
   border-bottom: 2px solid #29d9d555;
   margin-bottom: 2.5em;
 }
-.logo-block {
-  display: flex;
-  align-items: center;
-  gap: 1.35em;
+.header-left {
+  min-width: 0;
 }
 .header-logo {
-  width: 44px;
-  height: 44px;
-  filter: drop-shadow(0 0 12px #38f9d7cc);
-  background: linear-gradient(135deg,#43e97b 0%, #38f9d7 100%);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px #29d9d544;
-  padding: 6px;
-  flex-shrink: 0;
-  transition: filter 0.3s;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #222;
+  box-shadow: 0 2px 12px #29d9d522;
+}
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .header-title {
-  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.38em;
   font-weight: 700;
-  font-size: 2.1em;
-  background: linear-gradient(90deg, #29d9d5, #43e97b 60%, #ffc371 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: #29d9d5;
+  line-height: 1.1;
   letter-spacing: 0.04em;
-  line-height: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .header-caption {
-  font-size: 1em;
+  font-size: 0.98em;
+  color: #38f9d7cc;
   font-weight: 400;
-  color: #29d9d5cc;
-  letter-spacing: 0.01em;
-  margin-left: 2px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.theme-toggle-btn {
+  margin-left: auto;
+  margin-right: 0;
+  align-self: flex-start;
+  border-radius: 50%;
+  padding: 0.5em 0.7em;
+  font-size: 1.5em;
 }
 
-/* --- Responsive header --- */
+/* info-footer теперь фиксированный низ */
+.info-footer {
+  width: 100vw;
+  max-width: 100vw;
+  padding: 0.7em 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: rgba(44, 62, 80, 0.85);
+  color: #adb5bd;
+  font-size: 1.01em;
+  z-index: 1050;
+  border-top: 1px solid #29d9d533;
+  box-shadow: 0 -2px 12px #2226;
+}
+.theme-light .info-footer {
+  background: #f8fafdcc;
+  color: #6c757d;
+  border-top: 1px solid #43e97b33;
+}
+
+/* Media для мобилок */
 @media (max-width: 600px) {
-  .site-header { flex-direction: column; align-items: flex-start; gap: 1em; margin-bottom: 1.3em; }
-  .header-title { font-size: 1.18em; }
-  .header-logo { width: 32px; height: 32px; }
+  .site-header {
+    flex-direction: row;
+    padding-bottom: 0.7em;
+    margin-bottom: 1em;
+  }
+  .header-logo {
+    width: 34px;
+    height: 34px;
+  }
+  .header-title {
+    font-size: 1.08em;
+  }
+  .header-caption {
+    font-size: 0.89em;
+  }
+  .theme-toggle-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 1045;
+    background: rgba(44,62,80,0.87);
+  }
+  .info-footer {
+    font-size: 0.98em;
+    padding: 0.5em 0;
+  }
 }
 
 /* --- Остальное (оставь свой текущий код ниже) --- */
